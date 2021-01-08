@@ -1,7 +1,9 @@
+```{r}
 epil <- MASS::epil
 epilframe <- data.frame(epil)
 
 library(pwr)
+library(dplyr)
 
 pwr.t.test(n = NULL,
            d = 0.2,
@@ -108,4 +110,7 @@ indice_atG4
 compGrupo4 <- data.frame(indice_atG4, total_atG4, G4base)
 names(compGrupo4) <- c("Sujeto", "Total de ataques en Tx", "Ataques previos")
 
+
+
+```
 
