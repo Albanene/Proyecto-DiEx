@@ -1,20 +1,41 @@
-```{r}
-epil <- MASS::epil
-epilframe <- data.frame(epil)
+---
+title: "Proyecto"
+output: html_notebook
+---
 
+```{r include=FALSE}
 library(pwr)
 library(dplyr)
+```
 
+```{r}
+epilepsy <- MASS::epil
+epilepsy
+```
+
+##Poder del diseño muestral
+```{r}
 pwr.t.test(n = NULL,
            d = 0.2,
            sig.level = 0.05,
            type = "one.sample",
            alternative = "greater",
            power = 0.2)
+```
 
-epil_exclusion <- data.frame(epilframe[c(-9, -10, -11, -12, -13, -14, -15, -16, -85, -86, -87, -88, -101, -102, -103, -104, -157, -158, -159, -160, -181, -182, -183, -184),])
-placebo <- data.frame(epil_exclusion[epil_exclusion$trt == "placebo",])
-progabide <- data.frame(epil_exclusion[epil_exclusion$trt == "progabide",])
+```{r}
+epilepsy %>% 
+  filter(base >= 10, trt == "placebo" |trt == "progabide") %>% 
+  mutate(grupos = case_when(
+    (age < 30 & trt == "placebo") ~ "Grupo1",
+    (age > 29 & trt == "placebo") ~ "Grupo2",
+    (age < 30 & trt == "progabide") ~ "Grupo3",
+    (age > 29 & trt == "progabide") ~ "Grupo4", 
+    TRUE ~ NA
+  ))
+```
+
+```{r}
 Grupo1 <- data.frame(placebo[placebo$age < 30,])
 Grupo2 <- data.frame(placebo[placebo$age > 29,])
 Grupo3 <- data.frame(progabide[progabide$age < 30,])
