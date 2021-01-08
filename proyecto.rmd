@@ -1,0 +1,111 @@
+epil <- MASS::epil
+epilframe <- data.frame(epil)
+
+library(pwr)
+
+pwr.t.test(n = NULL,
+           d = 0.2,
+           sig.level = 0.05,
+           type = "one.sample",
+           alternative = "greater",
+           power = 0.2)
+
+epil_exclusion <- data.frame(epilframe[c(-9, -10, -11, -12, -13, -14, -15, -16, -85, -86, -87, -88, -101, -102, -103, -104, -157, -158, -159, -160, -181, -182, -183, -184),])
+placebo <- data.frame(epil_exclusion[epil_exclusion$trt == "placebo",])
+progabide <- data.frame(epil_exclusion[epil_exclusion$trt == "progabide",])
+Grupo1 <- data.frame(placebo[placebo$age < 30,])
+Grupo2 <- data.frame(placebo[placebo$age > 29,])
+Grupo3 <- data.frame(progabide[progabide$age < 30,])
+Grupo4 <- data.frame(progabide[progabide$age > 29,])
+y_grupo1 <- Grupo1$y
+y_grupo2 <- Grupo2$y
+y_grupo3 <- Grupo3$y
+y_grupo4 <- Grupo4$y
+G1base <- data.frame(Grupo1[Grupo1$V4 == 1, c(-1, -2, -4, -5, -6, -7, -8, -9)])
+G2base <- data.frame(Grupo2[Grupo2$V4 == 1, c(-1, -2, -4, -5, -6, -7, -8, -9)])
+G3base <- data.frame(Grupo3[Grupo3$V4 == 1, c(-1, -2, -4, -5, -6, -7, -8, -9)])
+G4base <- data.frame(Grupo4[Grupo4$V4 == 1, c(-1, -2, -4, -5, -6, -7, -8, -9)])
+
+#Grupo1
+contador <- 1
+length_yG1 <- length(y_grupo1)
+length_yG1
+total_atG1 <- c() #ataques totales por sujeto
+indice_atG1 <- c()
+while (contador<length_yG1) {
+t <- 0
+t <- t + Grupo1$y[contador] + Grupo1$y[contador + 1] + Grupo1$y[contador + 2] + Grupo1$y[contador + 3]
+contador <- contador + 4   
+total_atG1[contador/4] <- t
+indice_atG1[contador/4] <- Grupo1$subject[contador-4]
+}
+total_atG1
+indice_atG1
+
+compGrupo1 <- data.frame(indice_atG1, total_atG1, G1base)
+names(compGrupo1) <- c("Sujeto", "Total de ataques en Tx", "Ataques previos")
+
+barplot(total_atG1)
+barplot(G1base)
+
+
+#Grupo2
+contador <- 1
+length_yG2 <- length(y_grupo2)
+length_yG2
+total_atG2 <- c() #ataques totales por sujeto
+indice_atG2 <- c()
+while (contador<length_yG2) {
+  t <- 0
+  t <- t + Grupo2$y[contador] + Grupo2$y[contador + 1] + Grupo2$y[contador + 2] + Grupo2$y[contador + 3]
+  contador <- contador + 4   
+  total_atG2[contador/4] <- t
+  indice_atG2[contador/4] <- Grupo2$subject[contador-4]
+}
+total_atG2
+indice_atG2
+
+compGrupo2 <- data.frame(indice_atG2, total_atG2, G2base)
+names(compGrupo2) <- c("Sujeto", "Total de ataques en Tx", "Ataques previos")
+
+
+#Grupo3
+contador <- 1
+length_yG3 <- length(y_grupo3)
+length_yG3
+total_atG3 <- c() #ataques totales por sujeto
+indice_atG3 <- c()
+while (contador<length_yG3) {
+  t <- 0
+  t <- t + Grupo3$y[contador] + Grupo3$y[contador + 1] + Grupo3$y[contador + 2] + Grupo3$y[contador + 3]
+  contador <- contador + 4   
+  total_atG3[contador/4] <- t
+  indice_atG3[contador/4] <- Grupo3$subject[contador-4]
+}
+total_atG3
+indice_atG3
+
+compGrupo3 <- data.frame(indice_atG3, total_atG3, G3base)
+names(compGrupo3) <- c("Sujeto", "Total de ataques en Tx", "Ataques previos")
+
+
+#Grupo4
+contador <- 1
+length_yG4 <- length(y_grupo4)
+length_yG4
+total_atG4 <- c() #ataques totales por sujeto
+indice_atG4 <- c()
+while (contador<length_yG4) {
+  t <- 0
+  t <- t + Grupo4$y[contador] + Grupo4$y[contador + 1] + Grupo4$y[contador + 2] + Grupo4$y[contador + 3]
+  contador <- contador + 4   
+  total_atG4[contador/4] <- t
+  indice_atG4[contador/4] <- Grupo4$subject[contador-4]
+}
+total_atG4
+indice_atG4
+
+compGrupo4 <- data.frame(indice_atG4, total_atG4, G4base)
+names(compGrupo4) <- c("Sujeto", "Total de ataques en Tx", "Ataques previos")
+
+
