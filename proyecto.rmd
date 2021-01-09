@@ -26,12 +26,13 @@ pwr.t.test(n = NULL,
 ```{r}
 epilepsy %>% 
   filter(base >= 10, trt == "placebo" |trt == "progabide") %>% 
-  mutate(grupos = case_when(
-    (age < 30 & trt == "placebo") ~ "Grupo1",
-    (age > 29 & trt == "placebo") ~ "Grupo2",
-    (age < 30 & trt == "progabide") ~ "Grupo3",
-    (age > 29 & trt == "progabide") ~ "Grupo4", 
-    TRUE ~ NA
+  mutate(
+    grupos = case_when(
+    age < 30 & trt == "placebo" ~ "Grupo1",
+    age >= 30 & trt == "placebo" ~ "Grupo2",
+    age < 30 & trt == "progabide" ~ "Grupo3",
+    age >= 30 & trt == "progabide" ~ "Grupo4", 
+    TRUE ~ "No existe"
   ))
 ```
 
