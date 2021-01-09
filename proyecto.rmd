@@ -39,19 +39,11 @@ epilepsy %>%
 ```
 
 ```{r}
-y_grupo1 <- Grupo1$y
-y_grupo2 <- Grupo2$y
-y_grupo3 <- Grupo3$y
-y_grupo4 <- Grupo4$y
-```
-
-```{r}
 G1base <- Grupo1[Grupo1$V4 == 1, c(-1, -2, -4, -5, -6, -7, -8, -9)]
 G2base <- Grupo2[Grupo2$V4 == 1, c(-1, -2, -4, -5, -6, -7, -8, -9)]
 G3base <- Grupo3[Grupo3$V4 == 1, c(-1, -2, -4, -5, -6, -7, -8, -9)]
 G4base <- Grupo4[Grupo4$V4 == 1, c(-1, -2, -4, -5, -6, -7, -8, -9)]
 ```
-
 
 ```{r}
 #Grupo1
