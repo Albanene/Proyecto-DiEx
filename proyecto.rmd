@@ -32,7 +32,7 @@ epilepsy %>%
     age >= 30 & trt == "placebo" ~ "Grupo2",
     age < 30 & trt == "progabide" ~ "Grupo3",
     age >= 30 & trt == "progabide" ~ "Grupo4", 
-    TRUE ~ "No existe"
+    TRUE ~ as.character(NA)
   ))
 ```
 
