@@ -37,10 +37,7 @@ epilepsy %>%
 ```
 
 ```{r}
-Grupo1 <- data.frame(placebo[placebo$age < 30,])
-Grupo2 <- data.frame(placebo[placebo$age > 29,])
-Grupo3 <- data.frame(progabide[progabide$age < 30,])
-Grupo4 <- data.frame(progabide[progabide$age > 29,])
+
 y_grupo1 <- Grupo1$y
 y_grupo2 <- Grupo2$y
 y_grupo3 <- Grupo3$y
