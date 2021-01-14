@@ -6,6 +6,8 @@ output: html_notebook
 ```{r include=FALSE}
 library(pwr)
 library(dplyr)
+library(ggplot2)
+library(tidyr)
 ```
 
 ```{r}
@@ -43,12 +45,31 @@ ep_filtered <- epilepsy %>%
 > nota: revisar que no haya duplicado
 
 ```{r}
-ep_filtered %>% 
+ep_resumen <- ep_filtered %>% 
   group_by(grupos, subject) %>% 
-  summarise(at_totales = sum(y), at_base = unique(base))
+  summarise(at_totales = sum(y), at_base = unique(base)) %>% 
+  mutate(
+    grupos = factor(
+      grupos, 
+      levels = c("Grupo1", "Grupo2", "Grupo3", "Grupo4"), 
+      labels = c("Grupo1", "Grupo2", "Grupo3", "Grupo4")
+    ), 
+    subject = factor(
+      subject, 
+      levels = sort(subject),
+      labels = sort(subject),
+    ))
 ```
 
 ```{r}
-barplot(total_atG1)
-barplot(G1base)
+ep_resumen
+```
+
+> nota: guardar en una variable
+
+```{r}
+ep_resumen %>% 
+  pivot_longer(at_totales:at_base, names_to = "tipos", values_to = "cantidad") %>% 
+ggplot() +
+  geom_boxplot(aes(x = tipos, y = cantidad, color = grupos))
 ```
