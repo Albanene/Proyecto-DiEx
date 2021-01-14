@@ -41,9 +41,6 @@ ep_filtered <- epilepsy %>%
 ```
 
 
-
-> nota: revisar que no haya duplicado
-
 ```{r}
 ep_resumen <- ep_filtered %>% 
   group_by(grupos, subject) %>% 
@@ -65,11 +62,14 @@ ep_resumen <- ep_filtered %>%
 ep_resumen
 ```
 
-> nota: guardar en una variable
 
 ```{r}
-ep_resumen %>% 
-  pivot_longer(at_totales:at_base, names_to = "tipos", values_to = "cantidad") %>% 
+ep_comparacion <- ep_resumen %>% 
+  pivot_longer(at_totales:at_base, names_to = "tipos", values_to = "cantidad") 
+```
+
+```{r}
 ggplot() +
   geom_boxplot(aes(x = tipos, y = cantidad, color = grupos))
 ```
+
