@@ -62,14 +62,17 @@ ep_resumen <- ep_filtered %>%
 ep_resumen
 ```
 
-
+##Visualización de datos exploratorios
 ```{r}
 ep_comparacion <- ep_resumen %>% 
   pivot_longer(at_totales:at_base, names_to = "tipos", values_to = "cantidad") 
 ```
 
 ```{r}
-ggplot() +
-  geom_boxplot(aes(x = tipos, y = cantidad, color = grupos))
+ggplot(ep_comparacion) +
+  geom_boxplot(aes(x = tipos, y = cantidad, color = grupos)) +
+  geom_point(aes(x = tipos, y= cantidad, color = grupos), alpha = 0.5) +
+  theme_minimal() +
+  facet_grid(.~grupos)
 ```
 
