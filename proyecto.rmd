@@ -76,3 +76,27 @@ ggplot(ep_comparacion) +
   facet_grid(.~grupos)
 ```
 
+##Haciendo pruebas de normalidad
+```{r}
+Grupo1 <- ep_resumen %>% 
+  filter(grupos == "Grupo1")
+Grupo2 <- ep_resumen %>% 
+  filter(grupos == "Grupo2")
+Grupo3 <- ep_resumen %>% 
+  filter(grupos == "Grupo3")
+Grupo4 <- ep_resumen %>% 
+  filter(grupos == "Grupo4")
+```
+
+```{r}
+shapiro.test(Grupo4$at_totales)
+```
+
+```{r}
+shapiro.test(Grupo4$at_base)
+```
+
+```{r}
+#Los ataques durante el tratamiento del grupo 2 y los ataques base del grupo 4 no son normales
+```
+
