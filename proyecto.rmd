@@ -6,6 +6,7 @@ output: html_notebook
 ```{r include=FALSE}
 library(pwr)
 library(dplyr)
+
 library(ggplot2)
 library(tidyr)
 ```
