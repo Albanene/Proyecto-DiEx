@@ -32,10 +32,8 @@ ep_filtered <- epilepsy %>%
   filter(base >= 10, trt == "placebo" |trt == "progabide") %>% 
   mutate(
     grupos = case_when(
-      age < 30 & trt == "placebo" ~ "Grupo1",
-      age >= 30 & trt == "placebo" ~ "Grupo2",
-      age < 30 & trt == "progabide" ~ "Grupo3",
-      age >= 30 & trt == "progabide" ~ "Grupo4", 
+      trt == "placebo" ~ "Grupo1",
+      trt == "progabide" ~ "Grupo2",
       TRUE ~ as.character(NA)
     ))
 ```
@@ -48,8 +46,8 @@ ep_resumen <- ep_filtered %>%
   mutate(
     grupos = factor(
       grupos, 
-      levels = c("Grupo1", "Grupo2", "Grupo3", "Grupo4"), 
-      labels = c("Grupo1", "Grupo2", "Grupo3", "Grupo4")
+      levels = c("Grupo1", "Grupo2"), 
+      labels = c("Grupo1", "Grupo2")
     ), 
     subject = factor(
       subject, 
@@ -82,18 +80,16 @@ Grupo1 <- ep_resumen %>%
   filter(grupos == "Grupo1")
 Grupo2 <- ep_resumen %>% 
   filter(grupos == "Grupo2")
-Grupo3 <- ep_resumen %>% 
-  filter(grupos == "Grupo3")
-Grupo4 <- ep_resumen %>% 
-  filter(grupos == "Grupo4")
 ```
 
 ```{r}
-shapiro.test(Grupo4$at_totales)
+shapiro.test(Grupo1$at_totales)
+shapiro.test(Grupo1$at_base)
 ```
 
 ```{r}
-shapiro.test(Grupo4$at_base)
+shapiro.test(Grupo2$at_totales)
+shapiro.test(Grupo2$at_base)
 ```
 
 ```{r}
