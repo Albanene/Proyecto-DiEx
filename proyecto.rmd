@@ -17,6 +17,7 @@ epilepsy
 
 ##Poder del diseño muestral
 ```{r}
+#Esto debería cambiarse porque no hicimos la prueba t
 pwr.t.test(n = NULL,
            d = 0.2,
            sig.level = 0.05,
@@ -29,7 +30,7 @@ pwr.t.test(n = NULL,
 
 ```{r}
 ep_filtered <- epilepsy %>% 
-  filter(base >= 10, trt == "placebo" |trt == "progabide") %>% 
+  filter(trt == "placebo" |trt == "progabide") %>% 
   mutate(
     grupos = case_when(
       trt == "placebo" ~ "Grupo1",
@@ -40,9 +41,26 @@ ep_filtered <- epilepsy %>%
 
 
 ```{r}
+#ep_resumen <- ep_filtered %>% 
+#  group_by(grupos, subject) %>% 
+#  summarise(at_totales = sum(y), at_base = unique(base)/4) %>% 
+#  mutate(#estoy intentando sacar el promedio de los ataques base para compararlos con cada una de las 
+#    grupos = factor(
+#      grupos, 
+#      levels = c("Grupo1", "Grupo2"), 
+#      labels = c("Grupo1", "Grupo2")
+#    ), 
+#    subject = factor(
+#      subject, 
+#      levels = sort(subject),
+#      labels = sort(subject),
+#    ))
+```
+
+```{r}
 ep_resumen <- ep_filtered %>% 
-  group_by(grupos, subject) %>% 
-  summarise(at_totales = sum(y), at_base = unique(base)) %>% 
+  group_by(grupos, subject, period) %>% 
+  summarise(y, at_base = unique(base)/4) %>% 
   mutate(
     grupos = factor(
       grupos, 
@@ -52,12 +70,21 @@ ep_resumen <- ep_filtered %>%
     subject = factor(
       subject, 
       levels = sort(subject),
-      labels = sort(subject),
+      labels = sort(subject)
+    ),
+    period = factor(
+      period,
+      levels = sort(period),
+      labels = sort(period)
     ))
 ```
 
 ```{r}
 ep_resumen
+```
+
+```{r}
+summary(ep_resumen)
 ```
 
 ##Visualización de datos exploratorios
@@ -92,7 +119,4 @@ shapiro.test(Grupo2$at_totales)
 shapiro.test(Grupo2$at_base)
 ```
 
-```{r}
-#Los ataques durante el tratamiento del grupo 2 y los ataques base del grupo 4 no son normales
-```
 
