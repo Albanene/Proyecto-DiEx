@@ -18,7 +18,7 @@ str(epilepsia)
 
 ```{r}
 sujeto <- unique(epilepsia$subject)
-grupo <- as.factor(epilepsia$trt[epilepsia$period == 1])
+Grupos <- as.factor(epilepsia$trt[epilepsia$period == 1])
 lb_prom <- epilepsia$base[epilepsia$period == 1]/4
 p1 <- epilepsia$y[epilepsia$period == 1]
 p2 <- epilepsia$y[epilepsia$period == 2]
@@ -31,7 +31,7 @@ prop_p4 <- p4/lb_prom
 ```
 
 ```{r}
-epil.df <- data.frame(sujeto, grupo, lb_prom, p1, p2, p3, p4, prop_p1, prop_p2, prop_p3, prop_p4)
+epil.df <- data.frame(sujeto, Grupos, lb_prom, p1, p2, p3, p4, prop_p1, prop_p2, prop_p3, prop_p4)
 ```
 
 ```{r}
@@ -89,19 +89,18 @@ epil.df <- data.frame(sujeto, grupo, lb_prom, p1, p2, p3, p4, prop_p1, prop_p2, 
 #summary(progabide$crisis_proporcion)
 ```
 
-##Pruebas estadísticas
-```{r}
-shapiro.test()
-```
 
 ```{r}
 summary(epil.df)
 ```
-
+##Gráficas
 ###Gráficas línea base
 ```{r}
 lb_grafica <- ggplot(epil.df) + 
-  geom_boxplot(aes(x = grupo, y = lb_prom, color = grupo))
+  geom_boxplot(aes(x = Grupos, y = lb_prom, color = Grupos)) +
+  ylab("Número de crisis") +
+  xlab(" ") +
+  ggtitle("Crisis en la línea base")
 ```
 
 ```{r}
@@ -110,7 +109,10 @@ lb_grafica
 ###Gráficas periodo 1
 ```{r}
 p1_grafica <- ggplot(epil.df) + 
-  geom_boxplot(aes(x = grupo, y = p1, color = grupo))
+  geom_boxplot(aes(x = Grupos, y = p1, color = Grupos)) +
+  ylab("Número de crisis") +
+  xlab(" ") +
+  ggtitle("Crisis en el periodo 1")
 ```
 
 ```{r}
@@ -120,7 +122,10 @@ p1_grafica
 ###Gráficas periodo 2
 ```{r}
 p2_grafica <- ggplot(epil.df) + 
-  geom_boxplot(aes(x = grupo, y = p2, color = grupo))
+  geom_boxplot(aes(x = Grupos, y = p2, color = Grupos)) +
+  ylab("Número de crisis") +
+  xlab(" ") +
+  ggtitle("Crisis en el periodo 2")
 ```
 
 ```{r}
@@ -130,7 +135,10 @@ p2_grafica
 ###Gráficas periodo 3
 ```{r}
 p3_grafica <- ggplot(epil.df) + 
-  geom_boxplot(aes(x = grupo, y = p3, color = grupo))
+  geom_boxplot(aes(x = Grupos, y = p3, color = Grupos)) +
+  ylab("Número de crisis") +
+  xlab(" ") +
+  ggtitle("Crisis en el periodo 3")
 ```
 
 ```{r}
@@ -139,15 +147,25 @@ p3_grafica
 ###Gráficas periodo 4
 ```{r}
 p4_grafica <- ggplot(epil.df) + 
-  geom_boxplot(aes(x = grupo, y = p4, color = grupo))
+  geom_boxplot(aes(x = Grupos, y = p4, color = Grupos)) +
+  ylab("Número de crisis") +
+  xlab(" ") +
+  ggtitle("Crisis en el periodo 4")
 ```
 
 ```{r}
 p4_grafica
 ```
-
+##Pruebas de normalidad
 ```{r}
+shapiro.test(epil.df$lb_prom)
+shapiro.test(epil.df$p1)
+shapiro.test(epil.df$p2)
+shapiro.test(epil.df$p3)
+shapiro.test(epil.df$p4)
 
+#Ninguna de las distribuciones son normales
+#Se procede a hacer pruebas no paramétricas, para comparar la línea base con cada periodo
 ```
 
 
