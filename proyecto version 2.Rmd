@@ -100,7 +100,7 @@ lb_grafica <- ggplot(epil.df) +
   geom_boxplot(aes(x = Grupos, y = lb_prom, color = Grupos)) +
   ylab("Número de crisis") +
   xlab(" ") +
-  ggtitle("Crisis en la línea base")
+  ggtitle("Promedio de crisis de la línea base")
 ```
 
 ```{r}
