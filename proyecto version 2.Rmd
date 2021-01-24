@@ -1,0 +1,158 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(ggplot2)
+```
+
+```{r}
+epilepsia = MASS::epil
+```
+
+
+```{r}
+str(epilepsia)
+```
+
+```{r}
+sujeto <- unique(epilepsia$subject)
+grupo <- as.factor(epilepsia$trt[epilepsia$period == 1])
+lb_prom <- epilepsia$base[epilepsia$period == 1]/4
+p1 <- epilepsia$y[epilepsia$period == 1]
+p2 <- epilepsia$y[epilepsia$period == 2]
+p3 <- epilepsia$y[epilepsia$period == 3]
+p4 <- epilepsia$y[epilepsia$period == 4]
+prop_p1 <- p1/lb_prom
+prop_p2 <- p2/lb_prom
+prop_p3 <- p3/lb_prom
+prop_p4 <- p4/lb_prom
+```
+
+```{r}
+epil.df <- data.frame(sujeto, grupo, lb_prom, p1, p2, p3, p4, prop_p1, prop_p2, prop_p3, prop_p4)
+```
+
+```{r}
+#placebo_p1 = epil.df[epil.df$periodo %in% 1 & epil.df$grupo == "placebo", ]
+#progabide_p1 = epil.df[epil.df$periodo %in% 1 & epil.df$grupo == "progabide", ]
+#head(placebo_p1)
+```
+
+```{r}
+#sd(progabide_p1$lb)
+```
+
+
+```{r}
+#summary(placebo_p1$lb)
+```
+
+```{r}
+#summary(progabide_p1$lb)
+```
+#Estadística descriptiva
+##Periodo 1
+```{r}
+#periodo = 1
+#placebo = epil.df[epil.df$periodo %in% periodo & epil.df$grupo == "placebo", ]
+#progabide = epil.df[epil.df$periodo %in% periodo & epil.df$grupo == "progabide", ]
+#summary(placebo$crisis_proporcion)
+#summary(progabide$crisis_proporcion)
+```
+
+##Periodo 2
+```{r}
+#periodo = 2
+#placebo = epil.df[epil.df$periodo %in% periodo & epil.df$grupo == "placebo", ]
+#progabide = epil.df[epil.df$periodo %in% periodo & epil.df$grupo == "progabide", ]
+#summary(placebo$crisis_proporcion)
+#summary(progabide$crisis_proporcion)
+```
+
+##Periodo 3
+```{r}
+#periodo = 3
+#placebo = epil.df[epil.df$periodo %in% periodo & epil.df$grupo == "placebo", ]
+#progabide = epil.df[epil.df$periodo %in% periodo & epil.df$grupo == "progabide", ]
+#summary(placebo$crisis_proporcion)
+#summary(progabide$crisis_proporcion)
+```
+
+##Periodo 4
+```{r}
+#periodo = 4
+#placebo = epil.df[epil.df$periodo %in% periodo & epil.df$grupo == "placebo", ]
+#progabide = epil.df[epil.df$periodo %in% periodo & epil.df$grupo == "progabide", ]
+#summary(placebo$crisis_proporcion)
+#summary(progabide$crisis_proporcion)
+```
+
+##Pruebas estadísticas
+```{r}
+shapiro.test()
+```
+
+```{r}
+summary(epil.df)
+```
+
+###Gráficas línea base
+```{r}
+lb_grafica <- ggplot(epil.df) + 
+  geom_boxplot(aes(x = grupo, y = lb_prom, color = grupo))
+```
+
+```{r}
+lb_grafica
+```
+###Gráficas periodo 1
+```{r}
+p1_grafica <- ggplot(epil.df) + 
+  geom_boxplot(aes(x = grupo, y = p1, color = grupo))
+```
+
+```{r}
+p1_grafica
+```
+
+###Gráficas periodo 2
+```{r}
+p2_grafica <- ggplot(epil.df) + 
+  geom_boxplot(aes(x = grupo, y = p2, color = grupo))
+```
+
+```{r}
+p2_grafica
+```
+
+###Gráficas periodo 3
+```{r}
+p3_grafica <- ggplot(epil.df) + 
+  geom_boxplot(aes(x = grupo, y = p3, color = grupo))
+```
+
+```{r}
+p3_grafica
+```
+###Gráficas periodo 4
+```{r}
+p4_grafica <- ggplot(epil.df) + 
+  geom_boxplot(aes(x = grupo, y = p4, color = grupo))
+```
+
+```{r}
+p4_grafica
+```
+
+```{r}
+
+```
+
+
+```{r}
+# comparación entre grupos por periodo: u mann (en R es wilcox.test())
+# comparar dentro del mismo grupo: friedman.test() # versión no paramétrica de la anova de medidas repetidas
+```
+
