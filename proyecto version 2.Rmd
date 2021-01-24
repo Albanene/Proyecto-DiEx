@@ -28,11 +28,13 @@ prop_p1 <- p1/lb_prom
 prop_p2 <- p2/lb_prom
 prop_p3 <- p3/lb_prom
 prop_p4 <- p4/lb_prom
+
 ```
 
 ```{r}
 epil.df <- data.frame(sujeto, Grupos, lb_prom, p1, p2, p3, p4, prop_p1, prop_p2, prop_p3, prop_p4)
 ```
+
 
 ```{r}
 #placebo_p1 = epil.df[epil.df$periodo %in% 1 & epil.df$grupo == "placebo", ]
@@ -156,17 +158,39 @@ p4_grafica <- ggplot(epil.df) +
 ```{r}
 p4_grafica
 ```
+
+
+
+
 ##Pruebas de normalidad
+###Pruebas para el grupo control
 ```{r}
-shapiro.test(epil.df$lb_prom)
-shapiro.test(epil.df$p1)
-shapiro.test(epil.df$p2)
-shapiro.test(epil.df$p3)
-shapiro.test(epil.df$p4)
+shapiro.test(epil.df$lb_prom[epil.df$Grupos == "placebo"])
+shapiro.test(epil.df$p1[epil.df$Grupos == "placebo"])
+shapiro.test(epil.df$p2[epil.df$Grupos == "placebo"])
+shapiro.test(epil.df$p3[epil.df$Grupos == "placebo"])
+shapiro.test(epil.df$p4[epil.df$Grupos == "placebo"])
 
 #Ninguna de las distribuciones son normales
 #Se procede a hacer pruebas no paramétricas, para comparar la línea base con cada periodo
 ```
+
+###Pruebas para el grupo experimental
+```{r}
+shapiro.test(epil.df$lb_prom[epil.df$Grupos == "progabide"])
+shapiro.test(epil.df$p1[epil.df$Grupos == "progabide"])
+shapiro.test(epil.df$p2[epil.df$Grupos == "progabide"])
+shapiro.test(epil.df$p3[epil.df$Grupos == "progabide"])
+shapiro.test(epil.df$p4[epil.df$Grupos == "progabide"])
+```
+
+###Pruebas no paramétricas
+
+```{r}
+
+```
+
+
 
 
 ```{r}
