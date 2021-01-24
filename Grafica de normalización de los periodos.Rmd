@@ -8,7 +8,7 @@ library(ggplot2)
 ```
 
 ```{r}
-grupo = epilepsia$trt
+Grupos = epilepsia$trt
 sujeto = epilepsia$subject
 periodo = epilepsia$period
 lb = epilepsia$base/4
@@ -24,6 +24,9 @@ head(epi.df1)
 
 ##Gráfica normalizada conforme a la línea base
 ```{r}
-ggplot(epi.df2, aes(x = as.character(periodo), y = crisis_proporcion, fill = grupo)) +
-  geom_boxplot()
+ggplot(epi.df1, aes(x = as.character(periodo), y = crisis_proporcion, fill = Grupos)) +
+  geom_boxplot() +
+  xlab("Periodos") +
+  ylab("Proporción") +
+  ggtitle("Gráfica normalizada con respecto a la línea base")
 ```
