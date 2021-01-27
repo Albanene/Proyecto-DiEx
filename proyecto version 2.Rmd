@@ -19,6 +19,7 @@ str(epilepsia)
 ```{r}
 sujeto <- unique(epilepsia$subject)
 Grupos <- as.factor(epilepsia$trt[epilepsia$period == 1])
+Edad <- epilepsia$age[epilepsia$period == 1]
 lb_prom <- epilepsia$base[epilepsia$period == 1]/4
 p1 <- epilepsia$y[epilepsia$period == 1]
 p2 <- epilepsia$y[epilepsia$period == 2]
@@ -54,8 +55,13 @@ epil.df <- data.frame(sujeto, Grupos, lb_prom, p1, p2, p3, p4, prop_p1, prop_p2,
 ```{r}
 #summary(progabide_p1$lb)
 ```
-#Estadística descriptiva
-##Periodo 1
+
+```{r}
+summary(epil.df)
+```
+
+##Estadística descriptiva
+###Periodo 1
 ```{r}
 #periodo = 1
 #placebo = epil.df[epil.df$periodo %in% periodo & epil.df$grupo == "placebo", ]
@@ -64,7 +70,7 @@ epil.df <- data.frame(sujeto, Grupos, lb_prom, p1, p2, p3, p4, prop_p1, prop_p2,
 #summary(progabide$crisis_proporcion)
 ```
 
-##Periodo 2
+###Periodo 2
 ```{r}
 #periodo = 2
 #placebo = epil.df[epil.df$periodo %in% periodo & epil.df$grupo == "placebo", ]
@@ -73,7 +79,7 @@ epil.df <- data.frame(sujeto, Grupos, lb_prom, p1, p2, p3, p4, prop_p1, prop_p2,
 #summary(progabide$crisis_proporcion)
 ```
 
-##Periodo 3
+###Periodo 3
 ```{r}
 #periodo = 3
 #placebo = epil.df[epil.df$periodo %in% periodo & epil.df$grupo == "placebo", ]
@@ -82,7 +88,7 @@ epil.df <- data.frame(sujeto, Grupos, lb_prom, p1, p2, p3, p4, prop_p1, prop_p2,
 #summary(progabide$crisis_proporcion)
 ```
 
-##Periodo 4
+###Periodo 4
 ```{r}
 #periodo = 4
 #placebo = epil.df[epil.df$periodo %in% periodo & epil.df$grupo == "placebo", ]
@@ -91,10 +97,29 @@ epil.df <- data.frame(sujeto, Grupos, lb_prom, p1, p2, p3, p4, prop_p1, prop_p2,
 #summary(progabide$crisis_proporcion)
 ```
 
+###Edades
+```{r}
+#Media
+mean(Edad)
+```
 
 ```{r}
-summary(epil.df)
+#Rango
+range(Edad)
 ```
+
+```{r}
+#Mediana
+median(Edad)
+```
+
+```{r}
+#Moda
+mode(Edad)
+```
+
+
+
 ##Gráficas
 ###Gráficas línea base
 ```{r}
@@ -102,7 +127,7 @@ lb_grafica <- ggplot(epil.df) +
   geom_boxplot(aes(x = Grupos, y = lb_prom, color = Grupos)) +
   ylab("Número de crisis") +
   xlab(" ") +
-  ggtitle("Promedio de crisis de la línea base")
+  ggtitle("Distribución del número de crisis de la línea base")
 ```
 
 ```{r}
@@ -162,7 +187,7 @@ p4_grafica
 
 
 
-##Pruebas de normalidad
+#Pruebas de normalidad
 ###Pruebas para el grupo control
 ```{r}
 shapiro.test(epil.df$lb_prom[epil.df$Grupos == "placebo"])
@@ -184,17 +209,61 @@ shapiro.test(epil.df$p3[epil.df$Grupos == "progabide"])
 shapiro.test(epil.df$p4[epil.df$Grupos == "progabide"])
 ```
 
-###Pruebas no paramétricas
-
-```{r}
-
-```
-
-
-
 
 ```{r}
 # comparación entre grupos por periodo: u mann (en R es wilcox.test())
 # comparar dentro del mismo grupo: friedman.test() # versión no paramétrica de la anova de medidas repetidas
 ```
+
+
+
+#Pruebas no paramétricas
+
+##U de Mann Whitney
+###La línea base
+```{r}
+wilcox.test(x = epil.df$lb_prom[epil.df$Grupos == "placebo"], y = epil.df$lb_prom[epil.df$Grupos == "progabide"], paired = FALSE, conf.level = 0.95)
+```
+
+###Periodo 1
+```{r}
+wilcox.test(x = epil.df$p1[epil.df$Grupos == "placebo"], y = epil.df$p1[epil.df$Grupos == "progabide"], paired = FALSE, conf.level = 0.95)
+```
+
+###Periodo 2
+
+```{r}
+wilcox.test(x = epil.df$p2[epil.df$Grupos == "placebo"], y = epil.df$p2[epil.df$Grupos == "progabide"], paired = FALSE, conf.level = 0.95)
+```
+
+###Periodo 3
+
+```{r}
+wilcox.test(x = epil.df$p3[epil.df$Grupos == "placebo"], y = epil.df$p3[epil.df$Grupos == "progabide"], paired = FALSE, conf.level = 0.95)
+```
+
+###Periodo 4
+
+```{r}
+wilcox.test(x = epil.df$p4[epil.df$Grupos == "placebo"], y = epil.df$p4[epil.df$Grupos == "progabide"], paired = FALSE, conf.level = 0.95)
+```
+
+##Prueba de Friedman
+###Progabide 
+
+```{r}
+friedman.test(epilepsia$y[epilepsia$trt == "progabide"], epilepsia$period[epilepsia$trt == "progabide"], epilepsia$subject[epilepsia$trt == "progabide"])
+```
+```{r}
+friedman.test(epil.df$p1[epil.df$Grupos == "progabide"], epil.df$p2[epil.df$Grupos == "progabide"], epil.df$p3[epil.df$Grupos == "progabide"], epil.df$p4[epil.df$Grupos == "progabide"])
+```
+
+
+###Placebo
+
+```{r}
+friedman.test(epilepsia$y[epilepsia$trt == "placebo"], epilepsia$period[epilepsia$trt == "placebo"], epilepsia$subject[epilepsia$trt == "placebo"])
+```
+
+
 
